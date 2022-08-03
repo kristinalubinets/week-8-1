@@ -47,8 +47,16 @@ var fib = function(n) {
     return b;
 };
 
-/***********************************!!! Binet’s Formula -> faster than iter. and rec. methods, and doesn't rely on previous Fib. numbers ************************************ */
-
+/***********************************!!! Binet’s Formula /golden ratio -> faster than iter. and rec. methods, and doesn't rely on previous Fib. numbers ************************************ */
+/**
+ * @param {number} n
+ * @return {number}
+ */
+ var fib = function(n) {
+    
+    return Math.round(Math.pow((1 + Math.sqrt(5)) / 2, n) / Math.sqrt(5));
+};
+/****************************** */
 /**
  * @param {number} n
  * @return {number}
