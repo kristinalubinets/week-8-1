@@ -40,8 +40,8 @@ class LinkedList {
         this.size++;
         return this.head;
     }
-    insertAtIndex(data, index) {
-        if(index < 0 || this.size < index) return false;
+    insertAt(data, index) {
+        if(index <= 0 || this.size < index) return "Index can't be zero or negative!";
 
         if(index === 1) return this.insertHead(data);
         
@@ -61,6 +61,39 @@ class LinkedList {
             previous.next = newNode;
         }
         this.size++;
+    }
+    deleteFirst() {
+        if(this.head !== null) {
+            this.head = this.head.next;
+        }
+        return this.head;
+    }
+    deleteLast() {
+        if(this.head !== null) {
+            let previous = this.head;
+            let current = this.head;
+            while(current.next !== null) {
+                previous = current;
+                current = current.next;
+            }
+            previous.next = null;
+        }
+    }
+    deleteAt(index) {
+        if(this.head !== null) {
+            if(index === 1) return this.deleteFirst();
+
+            let current = this.head;
+            let previous;
+            let leng = 1;
+
+            while(leng !== index) {
+                previous = current;
+                current = current.next;
+                leng++;
+            }
+            previous.next = current.next;
+        }
     }
     length() { 
         return this.size;
@@ -91,6 +124,7 @@ class LinkedList {
             }
         }
     }
+    reverseList()
 }
 
 let node1 = new ListNode(1);
@@ -105,6 +139,12 @@ list.insertEnd(7);
 
 list.insertHead(-1);
 
-list.insertAtIndex(0, 2);
-list.insertAtIndex(200, 4)
+list.insertAt(0, 2);
+list.insertAt(200, 4);
+
+//list.deleteFirst(); //works
+//list.deleteLast(); //works
+//list.deleteAt(4); //works
+//console.log('length=' + list.length()) works
+
 list.printList();
