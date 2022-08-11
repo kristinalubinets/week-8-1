@@ -11,6 +11,21 @@
  * @param {number} high
  * @return {number}
  */
+ var rangeSumBST = function(root, L, R) {    
+    let sum;
+            
+        if(!root) return 0;
+    
+        if(root.val >= L && root.val <= R) sum = root.val;
+        else sum = 0;
+        
+        sum += rangeSumBST(root.left, L, R);
+        sum += rangeSumBST(root.right, L, R);
+    
+    return sum;
+};
+
+/***************************** Improved version (doesn't check all of the nodes, but those that are in the range, thus, faster) **************************** */
  var rangeSumBST = function(root, low, high) {
     let sum ;    
   
@@ -81,3 +96,28 @@ let rangeSumBST = function(root, L, R) {
     }
     return sum;
 };
+
+/**************************************** faster version of non-recursive approach ***************************/
+var rangeSumBST = function(root, L, R) {
+
+    let sum = 0;
+    let current ;
+    let visited = [root];
+
+    while(visited.length ) {
+        current = visited.shift();
+
+        if(current) {
+
+            if(current.val >= L && current.val <= R) 
+                sum += current.val;
+             
+            if(current.val >= L) 
+                visited.push(current.left);
+            
+            if (current.val <= R) 
+                visited.push(current.right);            
+        }
+    }
+    return sum;
+}
