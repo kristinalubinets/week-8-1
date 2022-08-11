@@ -112,7 +112,7 @@ class BST {
             let curr = this.root;
             while(curr !== null) {
                 depth++;
-                console.log('(depth=' + depth + ')');
+                //console.log('(depth=' + depth + ')');
                 if(curr.left === null) {
                     curr = curr.right
                 } else if (curr.right === null) {
@@ -143,6 +143,23 @@ class BST {
         }
         return true;
     }
+    bfs() {
+        let queue = [];
+        let visited = [];
+        let currentNode = this.root;
+
+        queue.push(currentNode);
+        while(queue.length !== 0) {
+
+            currentNode = queue.shift();
+            visited.push(currentNode.data);
+
+            if(currentNode.left) queue.push(currentNode.left);
+            if(currentNode.right) queue.push(currentNode.right);  
+        }
+        return visited;
+    }
+
 }
 
 //let r = new Node(8);
@@ -171,6 +188,43 @@ console.log(tree.inOrder(8));
 // console.log('--------------------')
 
 console.log('tree.depthOfBST()------' + tree.depthOfBST())
-//console.log('depth()===' + tree.depth());
-//console.log(tree.deleteAt(6))
+//console.log('depth()===' + tree.depth());     <----not working 
+//console.log(tree.deleteAt(6))                 <----not working 
 //console.log(tree.inOrder(8));
+console.log(tree.bfs())
+
+
+
+
+
+
+var invertTree = function(root) {
+    if (root == null) 
+        return root;
+    
+    let temp = root.left;
+    root.left = root.right;
+    root.right = temp;
+    
+    invertTree(root.left);
+    invertTree(root.right);
+    
+    return root;
+};
+
+
+var invertTree = function(root) {    
+    const recursiveFn = node => {     
+   
+        if (node === null) return;  // Exit case for recursion
+
+        [node.right, node.left] = [node.left, node.right]; // Swap
+        
+        recursiveFn(node.left);
+        recursiveFn(node.right);
+    }
+    
+    recursiveFn(root)
+    
+  return root;
+};
