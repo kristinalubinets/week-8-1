@@ -143,6 +143,63 @@ class BST {
         }
         return true;
     }
+    deleteLeaf(data) {
+        const deleteN = (root, data) => {
+
+            if(!root) return;
+            if(root.data === data) {
+                root.data = null;
+                console.log('found --' + data)
+            }
+
+            if(root.data < data) {
+                console.log('data greater')
+                deleteN(root.right, data)
+            }
+            if(root.data > data) {
+                console.log('data smaller')
+                deleteN(root.left, data)
+            }
+            return root;
+        }
+        deleteN(this.root, data);
+        return this.root;
+    }
+    deleteNodeOneChild(data) {
+        let previous;
+        let current = this.root;
+        let flag;
+
+        while(current && current.data !== data) {
+            previous = current;
+            if(current.data > data) {
+                current = current.left;
+                flag = 'left';
+            }
+            if(current.data < data) {
+                current = current.right;
+                flag = 'right';
+            }
+        }
+        if(current.data === data) {
+            //case for only one right child of 6
+            //flag 'right' thus current on the right of the previous
+            if(current.right ) {
+                if(flag === 'left') //if(current.data > current.left.data)
+                    previous.left = current.right;
+                if(flag === 'right') //if(current.data < current.right.data)
+                    previous.right = current.right;
+            } 
+            if(current.left) { 
+                if(flag === 'left')
+                    previous.left = current.left;
+                else if (flag ==='right')
+                    previous.right = current.left;
+            }            
+            current = null;
+        }
+        return this.root;
+    }
     bfs() {
         let queue = [];
         let visited = [];
@@ -171,11 +228,13 @@ tree.insert(8);
 tree.insert(3)
 tree.insert(10)
 tree.insert(6)
+tree.insert(7);
 tree.insert(1)
 tree.insert(14);
 tree.insert(15);
+tree.insert(2)
 
-console.log('size is_' + tree.size);
+console.log('size is_' + tree.size);  //wrong!
 // console.log('--------------------')
 console.log(tree.inOrder(8));
 // console.log('--------------------')
@@ -193,26 +252,11 @@ console.log('tree.depthOfBST()------' + tree.depthOfBST())
 //console.log(tree.inOrder(8));
 console.log(tree.bfs())
 
+//tree.deleteLeaf(1);
+tree.deleteNodeOneChild(2) 
+console.log(tree.bfs())
 
 
 
 
 
-
-
-
-var invertTree = function(root) {    
-    const recursiveFn = node => {     
-   
-        if (node === null) return;  // Exit case for recursion
-
-        [node.right, node.left] = [node.left, node.right]; // Swap
-        
-        recursiveFn(node.left);
-        recursiveFn(node.right);
-    }
-    
-    recursiveFn(root)
-    
-  return root;
-};
